@@ -1,0 +1,3 @@
+include ':cloudinary_video_subtitles'
+include ':app'
+rootProject.name = "CloudinaryVS"

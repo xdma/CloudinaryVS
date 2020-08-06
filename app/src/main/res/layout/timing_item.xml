@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/parentView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipToPadding="false"
+    android:paddingTop="0dp">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="13dp"
+        android:background="@color/transparent"
+        android:hint="@string/subtitle"
+        android:imeOptions="actionDone"
+        android:inputType="textCapSentences|textNoSuggestions"
+        android:text="SubTitle text"
+        android:textColorHint="@color/transparent_white"
+        android:textColor="@color/white"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@id/delete"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:gravity="center"
+        android:imeOptions="actionDone"
+        android:inputType="number"
+        android:textStyle="bold"
+        android:text="00:00:0"
+        android:textColor="@color/colorAccent"
+        android:textSize="12sp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@id/text"
+        app:layout_constraintTop_toBottomOf="@id/text" />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:gravity="center"
+        android:imeOptions="actionDone"
+        android:inputType="number"
+        android:text="00:00:0"
+        android:textStyle="bold"
+        android:textColor="@color/colorAccent"
+        android:textSize="12sp"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toEndOf="@id/start"
+        app:layout_constraintTop_toTopOf="@id/start" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="0dp"
+        android:layout_height="0.3dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/line_gradient"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/text"
+        app:layout_constraintTop_toBottomOf="@id/start"
+         />
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/delete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="8dp"
+        app:srcCompat="@drawable/ic_baseline_delete_forever_24"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
