@@ -1,11 +1,9 @@
 package com.shostak.cloudinary_vs.viewmodel
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.shostak.cloudinary_video_subtibles.CloudinaryVS
 import com.shostak.cloudinary_vs.AppDatabase
-import com.shostak.cloudinary_vs.CloudinaryVSApp
 import com.shostak.cloudinary_vs.model.SubTitle
 import com.shostak.cloudinary_vs.model.SubTitleDao
 import kotlinx.coroutines.GlobalScope
@@ -24,14 +22,6 @@ class SubTitleRepository(context: Context) {
     init {
         val db: AppDatabase = AppDatabase.getInstance(context)
         subtitleDao = db.subTitleDao()
-    }
-
-
-    fun loadSubtitles() {
-        GlobalScope.launch {
-
-//            subtitlesList.postValue(list)
-        }
     }
 
     fun deleteItem(id: Int) {
@@ -73,9 +63,6 @@ class SubTitleRepository(context: Context) {
             .addSubtitles(json)
             .build()
 
-//        Log.i("Shostak", resultUrl)
-
-//        if (generatedUrl.value != resultUrl)
             generatedUrl.postValue(resultUrl)
     }
 

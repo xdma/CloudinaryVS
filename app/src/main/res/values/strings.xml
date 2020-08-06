@@ -7,5 +7,7 @@
     <string name="load">load</string>
     <string name="subtitle">subtitle</string>
     <string name="defaultCloudName">candidate-evaluation</string>
-<!--    <string name="defaultCloudName">demo</string>-->
+    <string name="defaultPublicId">The_Present.mp4</string>
+    <string name="default_timing">00:00:0</string>
+    <!--    <string name="defaultCloudName">demo</string>-->
 </resources>

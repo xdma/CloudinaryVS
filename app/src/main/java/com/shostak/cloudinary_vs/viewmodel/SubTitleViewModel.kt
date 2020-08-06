@@ -20,10 +20,6 @@ class SubTitleViewModel(application: Application) : AndroidViewModel(application
         repository.publicId = publicId
     }
 
-    fun loadSubtitles() {
-        repository.loadSubtitles()
-    }
-
     fun setCloudName(cloudName: String) {
         repository.cloudName = cloudName
     }

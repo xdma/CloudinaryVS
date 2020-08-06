@@ -10,4 +10,5 @@
         android:name="com.shostak.cloudinary_vs.ui.screen.VideoPlayerScreen"
         android:label="fragment_video_player_screen"
         tools:layout="@layout/fragment_video_player_screen" />
+
 </navigation>

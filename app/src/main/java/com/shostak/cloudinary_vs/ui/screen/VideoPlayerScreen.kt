@@ -12,7 +12,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.view.animation.LayoutAnimationController
-import android.widget.MediaController
 import androidx.dynamicanimation.animation.DynamicAnimation
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -25,7 +24,6 @@ import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
-import com.google.android.exoplayer2.util.Log
 import com.google.android.exoplayer2.util.Util
 import com.shostak.cloudinary_vs.AppDatabase
 import com.shostak.cloudinary_vs.R
@@ -36,15 +34,12 @@ import kotlinx.android.synthetic.main.fragment_video_player_screen.*
 
 
 class VideoPlayerScreen : Fragment(), View.OnClickListener, TextWatcher {
-    private lateinit var viewModel: SubTitleViewModel
 
-    private val VIDEO_SAMPLE: String =
-        "https://developers.google.com/training/images/tacoma_narrows.mp4"
-    private var mCurrentPosition = 1
+    private lateinit var viewModel: SubTitleViewModel
     private lateinit var smoothScroller: RecyclerView.SmoothScroller
     private val subtitlesAdapter = SubtitlesAdapter()
-    lateinit var player: SimpleExoPlayer
-    var videoReload = false
+    private lateinit var player: SimpleExoPlayer
+    private var videoReload = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,48 +52,12 @@ class VideoPlayerScreen : Fragment(), View.OnClickListener, TextWatcher {
         super.onViewCreated(view, savedInstanceState)
 
         player = SimpleExoPlayer.Builder(requireContext()).build()
-        videoView.setPlayer(player);
-        // Produces DataSource instances through which media data is loaded.
-
-
-        /*   mediaController = MediaController(requireContext())
-        mediaController.setMediaPlayer(videoView)
-        videoView.setMediaController(mediaController)
-
-        videoView.setOnPreparedListener(
-            MediaPlayer.OnPreparedListener {
-
-//                if (mCurrentPosition > 0) {
-//                    videoView.seekTo(mCurrentPosition)
-//                } else {
-//                    videoView.seekTo(1)
-//                }
-                videoView.getCurrentPosition()
-                videoView.start()
-            })
-
-        videoView.setOnErrorListener { mp, what, extra ->
-            Log.e("Shostak", what.toString())
-            return@setOnErrorListener false
-        }
-
-        videoView.setOnCompletionListener(
-            MediaPlayer.OnCompletionListener {
-//                videoView.seekTo(0)
-            })
-
-*/
+        videoView.player = player
 
         initRecyclerview()
         initUi()
-        hideSubtitlesList()
         loadButton.setOnClickListener(this)
-
-
-
-
-        initListLiveData()
-
+        initViewModel()
     }
 
 
@@ -156,6 +115,7 @@ class VideoPlayerScreen : Fragment(), View.OnClickListener, TextWatcher {
     }
 
     private fun initRecyclerview() {
+        hideSubtitlesList()
         smoothScroller = object : LinearSmoothScroller(requireContext()) {
             override fun getVerticalSnapPreference(): Int {
                 return SNAP_TO_START
@@ -164,7 +124,7 @@ class VideoPlayerScreen : Fragment(), View.OnClickListener, TextWatcher {
 
         val llm = LinearLayoutManager(context)
         llm.orientation = RecyclerView.VERTICAL
-//        llm.stackFromEnd = true
+
         recyclerView.layoutManager = llm
 
         subtitlesAdapter.onDeleteClicked = { subtitle ->
@@ -189,19 +149,17 @@ class VideoPlayerScreen : Fragment(), View.OnClickListener, TextWatcher {
     }
 
     private fun hideSubtitlesList() {
-//        releasePlayer()
         recyclerView.post {
             recyclerView.translationY = -recyclerView.height.toFloat()
             recyclerView.visibility = View.GONE
             recyclerView.tag = 0
         }
         addButton.visibility = View.GONE
-
         VideoViewCollapseExpandAnimation.collapse(videoView)
     }
 
 
-    fun initListLiveData() {
+    private fun initViewModel() {
         viewModel = ViewModelProvider(this).get(
             SubTitleViewModel::
             class.java
@@ -249,84 +207,54 @@ class VideoPlayerScreen : Fragment(), View.OnClickListener, TextWatcher {
                 0.8f
             )
 
-
             if (recyclerView.tag == 0) {
-                recyclerView.scheduleLayoutAnimation()
-
                 recyclerView.tag = 1
-
+                recyclerView.scheduleLayoutAnimation()
                 recyclerViewSpring.setStartValue(-recyclerView.height.toFloat())
                     .animateToFinalPosition(0F)
-
                 addButtonSpring.setStartValue(-90F).animateToFinalPosition(0F)
                 avd.start()
-
-
             }
 
             subtitlesAdapter.submitList(it.sortedWith(compareBy({ it.id })))
-
             viewModel.createCloudinaryUrl(it)
-
         })
-
 
         VideoViewCollapseExpandAnimation.expand(videoView)
     }
 
     private fun initializePlayer(videoUrl: String) {
-
         if (!videoReload)
             return
-        videoReload = false
 
+        videoReload = false
         val dataSourceFactory: DataSource.Factory = DefaultDataSourceFactory(
             context,
             Util.getUserAgent(requireContext(), "cvs")
         )
-
-        // This is the MediaSource representing the media to be played.
         val videoSource: MediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
             .createMediaSource(Uri.parse(videoUrl))
-
-        // Prepare the player with the source.
         player.prepare(videoSource)
-        Log.i("Shostak", videoUrl)
     }
 
-    override fun onStop() {
-        super.onStop()
-//        releasePlayer()
-    }
-//
-//    private fun releasePlayer() {
-////        mediaController.show()
-//        videoView.stopPlayback()
-//    }
-
-
-    companion object {
-
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            VideoPlayerScreen().apply {
-
-            }
-    }
 
     override fun afterTextChanged(s: Editable?) {
         if (viewModel.publicId != s.toString()) {
             hideSubtitlesList()
         }
-
-
     }
 
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
     }
-
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
+    }
+
+    companion object {
+
+        @JvmStatic
+        fun newInstance(param1: String, param2: String) =
+            VideoPlayerScreen()
     }
 }

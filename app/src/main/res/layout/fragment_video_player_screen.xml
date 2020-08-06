@@ -68,7 +68,7 @@
         android:background="@color/colorPrimary"
         android:padding="8dp"
         android:textColor="@color/white"
-        android:text="The_Present.mp4"
+        android:text="@string/defaultPublicId"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="@id/publicIdTitle"
         app:layout_constraintEnd_toEndOf="parent"
@@ -85,7 +85,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/publicIdTitle" />
 
-
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/addButton"
         android:layout_width="90dp"
@@ -96,8 +95,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/action_button_animated" />
-
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -113,6 +110,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/loadButton"
         tools:listitem="@layout/timing_item" />
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
