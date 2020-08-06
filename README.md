@@ -26,7 +26,7 @@ dependencies {
   
 ## How do I use it?
 The library takes three major values, ```publicid```,  ```cloudname```, ```jsonObject```- representing the subtitles
-* **The Subtitles JSONObject structure example:**
+* **The Subtitles JSONObject structure example:** 
 ```kotlin
 {
   "subtitles": [
@@ -53,6 +53,9 @@ The library takes three major values, ```publicid```,  ```cloudname```, ```jsonO
 ```Kotlin
 val resultUrl = CloudinaryVS.get(publicId)
                             .cloudName(cloudName)
-                            .addSubtitles(json)
+                            .addSubtitles(json) 
                             .build()
 ```
+
+
+_sample of susbtitles json is available at:_ ``` .addSubtitles(testData(context)) ```
