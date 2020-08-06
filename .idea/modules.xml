@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/cloudinary-video-subtitles-demo.iml" filepath="$PROJECT_DIR$/.idea/cloudinary-video-subtitles-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/CloudinaryVS.iml" filepath="$PROJECT_DIR$/.idea/modules/CloudinaryVS.iml" group="CloudinaryVS" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/app.iml" group="CloudinaryVS/app" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/cloudinary_video_subtitles/cloudinary_video_subtitles.iml" filepath="$PROJECT_DIR$/.idea/modules/cloudinary_video_subtitles/cloudinary_video_subtitles.iml" group="CloudinaryVS/cloudinary_video_subtitles" />
     </modules>
   </component>
 </project>
