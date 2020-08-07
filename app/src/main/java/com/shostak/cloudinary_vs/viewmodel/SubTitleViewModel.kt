@@ -36,8 +36,14 @@ class SubTitleViewModel(application: Application) : AndroidViewModel(application
         repository.addItem(getApplication<CloudinaryVSApp>(), item)
     }
 
-    fun createCloudinaryUrl(subtitlesList: List<SubTitle>?) {
-        repository.createCloudinaryUrl(subtitlesList)
+    fun createCloudinaryUrl(
+        subtitlesList: List<SubTitle>?,
+        textColor: Int,
+        bgColor: Int,
+        textSize: Int = 20
+    ) {
+
+        repository.createCloudinaryUrl(subtitlesList, textColor, bgColor, textSize)
     }
 
 }

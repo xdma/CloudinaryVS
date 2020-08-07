@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.view.animation.LayoutAnimationController
+import androidx.core.content.ContextCompat
 import androidx.dynamicanimation.animation.DynamicAnimation
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -217,7 +218,13 @@ class VideoPlayerScreen : Fragment(), View.OnClickListener, TextWatcher {
             }
 
             subtitlesAdapter.submitList(it.sortedWith(compareBy({ it.id })))
-            viewModel.createCloudinaryUrl(it)
+
+            viewModel.createCloudinaryUrl(
+                subtitlesList = it,
+                textColor = ContextCompat.getColor(requireContext(), R.color.colorAccent),
+                bgColor = ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark),
+                textSize = 80
+            )
         })
 
         VideoViewCollapseExpandAnimation.expand(videoView)

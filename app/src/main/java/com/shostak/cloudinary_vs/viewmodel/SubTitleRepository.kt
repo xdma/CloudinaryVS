@@ -43,7 +43,7 @@ class SubTitleRepository(context: Context) {
         }
     }
 
-    fun createCloudinaryUrl(subtitlesList: List<SubTitle>?) {
+    fun createCloudinaryUrl(subtitlesList: List<SubTitle>?, textColor:Int, bgColor: Int, textSize: Int) {
         val subtitlesJsonArray = JSONArray()
         subtitlesList?.forEach {
             subtitlesJsonArray.put(JSONObject().apply {
@@ -61,6 +61,9 @@ class SubTitleRepository(context: Context) {
             .get(publicId)
             .cloudName(cloudName)
             .addSubtitles(json)
+            .textColor(textColor)
+            .backgroundColor(bgColor)
+            .setTextSize(textSize)
             .build()
 
             generatedUrl.postValue(resultUrl)

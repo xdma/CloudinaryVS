@@ -1,5 +1,6 @@
 package com.shostak.cloudinary_video_subtibles
 
+import android.graphics.Color
 import com.shostak.cloudinary_video_subtibles.utils.jsonIsValid
 import com.shostak.cloudinary_video_subtibles.utils.timePosStrToSec
 import org.json.JSONObject
@@ -8,13 +9,15 @@ import java.net.URLEncoder
 
 class CloudinaryVS(val publicId: String) {
 
-    var cloudName: String = ""
-    var json: JSONObject? = null
+    private var cloudName: String = ""
+    internal var json: JSONObject? = null
 
     private val baseUrl =
         "https://res.cloudinary.com/%s/video/upload/%s%s"
-    private val iteration = "l_text:arial_50:%s,g_south,co_rgb:ffffff,y_50,so_%s,eo_%s,b_black"
-
+    private val iteration = "l_text:arial_%s:%s,g_south,co_rgb:%s,y_50,so_%s,eo_%s,b_%s"
+    private var defaultTextColor = "ffffff"
+    private var defaultBgColor = "black"
+    private var defaultTextSize = 20
 
     private fun generateVideoUrl(): String {
         var resultUrl = ""
@@ -25,20 +28,20 @@ class CloudinaryVS(val publicId: String) {
             for (i in 0 until subtitles.length()) {
                 val item = subtitles.getJSONObject(i)
 
+                // escaping cloudinary special characters
+                val text = if ((item.getString("text")).isBlank()) "-subtitle-" else item.getString(
+                    "text"
+                )
+                    .replace("%", "%25")
+                    .replace(",", "%2C")
+                val start = timePosStrToSec(item.getString("start-timing"))
+                val end = timePosStrToSec(item.getString("end-timing"))
+
                 sb.append(
-                    // escaping cloudinary special characters
                     URLEncoder.encode(
-                        iteration.format(
-                            if((item.getString("text")).isBlank()) "-subtitle-" else item.getString("text")
-                                .replace("%", "%25")
-                                .replace(",", "%2C"),
-
-                            timePosStrToSec(item.getString("start-timing")),
-                            timePosStrToSec(item.getString("end-timing"))
-                        ), "UTF-8"
-                    )
-                        .replace("+", "%20")
-
+                        "l_text:arial_$defaultTextSize:$text,g_south,co_rgb:$defaultTextColor,y_50,so_$start,eo_$end,b_$defaultBgColor",
+                        "UTF-8"
+                    ).replace("+", "%20")
                 )
                 sb.append("/")
             }
@@ -46,7 +49,6 @@ class CloudinaryVS(val publicId: String) {
             resultUrl = baseUrl.format(
                 this.cloudName,
                 sb.toString(),
-
                 this.publicId
             )
 
@@ -64,6 +66,22 @@ class CloudinaryVS(val publicId: String) {
 
     fun addSubtitles(json: JSONObject): CloudinaryVS {
         this.json = json
+        return this
+    }
+
+    fun textColor(color: Int): CloudinaryVS {
+        defaultTextColor = Integer.toHexString(color).substring(2)
+        return this
+    }
+
+
+    fun backgroundColor(color: Int): CloudinaryVS {
+        defaultBgColor = "#${Integer.toHexString(color).substring(2)}"
+        return this
+    }
+
+    fun setTextSize(size: Int): CloudinaryVS {
+        defaultTextSize = size
         return this
     }
 
