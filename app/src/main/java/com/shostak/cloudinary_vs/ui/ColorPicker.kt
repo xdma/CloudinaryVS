@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.*
 import android.view.animation.OvershootInterpolator
 import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.DialogFragment
 import com.shostak.cloudinary_vs.R
 import com.shostak.cloudinary_vs.utils.toPx
@@ -42,7 +43,7 @@ class ColorPicker : DialogFragment() {
         wlp.flags = wlp.flags or WindowManager.LayoutParams.FLAG_DIM_BEHIND
         dialog?.window?.setGravity(Gravity.CENTER_HORIZONTAL or Gravity.BOTTOM)
         dialog!!.window
-            ?.setBackgroundDrawable(ColorDrawable(resources.getColor(R.color.transparent)))
+            ?.setBackgroundDrawable(ColorDrawable(ContextCompat.getColor(requireContext(), R.color.transparent)))
         window.attributes = wlp
 
         super.onStart()

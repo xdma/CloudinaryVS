@@ -33,7 +33,7 @@ class SubTitleViewModel(application: Application) : AndroidViewModel(application
     }
 
     fun addItem(item: SubTitle) {
-        repository.addItem(getApplication<CloudinaryVSApp>(), item)
+        repository.addItem(item)
     }
 
     fun createCloudinaryUrl(

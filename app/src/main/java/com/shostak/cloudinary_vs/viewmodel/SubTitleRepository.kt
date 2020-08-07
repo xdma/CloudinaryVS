@@ -39,7 +39,7 @@ class SubTitleRepository(context: Context) {
     }
 
 
-    fun addItem(context: Context, item: SubTitle) {
+    fun addItem(item: SubTitle) {
         GlobalScope.launch {
             subtitleDao.insert(item)
         }
