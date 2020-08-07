@@ -238,6 +238,10 @@ class VideoPlayerScreen : Fragment(), View.OnClickListener, TextWatcher {
                 0.8f
             )
 
+            /** recyclerView.tag used here for storing the state of the view,
+            if tag is 0 layoutanimation, animation drawable of action button
+            and recyclerView spring will play the animations */
+
             if (recyclerView.tag == 0) {
                 recyclerView.tag = 1
                 recyclerView.scheduleLayoutAnimation()
@@ -247,8 +251,12 @@ class VideoPlayerScreen : Fragment(), View.OnClickListener, TextWatcher {
                 avd.start()
             }
 
+            // submitting the list of subtitle objects to the recyclerView ListAdapter
             subtitlesAdapter.submitList(it.sortedWith(compareBy({ it.id })))
 
+            /** generating the Cloudinary video url
+             * on every items list change,
+            but not reloading the video */
             viewModel.createCloudinaryUrl(
                 subtitlesList = it,
                 textColor = textColor,
