@@ -6,10 +6,7 @@ import com.shostak.cloudinary_video_subtibles.CloudinaryVS
 import org.json.JSONObject
 import java.io.IOException
 import java.io.InputStream
-import java.lang.Exception
-import java.math.RoundingMode
 import java.nio.charset.Charset
-import java.text.DecimalFormat
 import java.util.regex.Pattern
 
 val TAG = "CVD"
