@@ -17,11 +17,12 @@ allprojects {
 ```
 
  Add the dependency:
- 
+
+Latest-version: [![](https://jitpack.io/v/xdma/CloudinaryVS.svg)](https://jitpack.io/#xdma/CloudinaryVS)
  ```gradle
 dependencies {
     ...
-    implementation 'com.github.xdma:CloudinaryVS:0.1.9'
+    implementation 'com.github.xdma:CloudinaryVS:<latest-version>'
 }
   ```
   
