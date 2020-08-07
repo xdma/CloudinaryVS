@@ -20,7 +20,7 @@ allprojects {
  ```gradle
 dependencies {
     ...
-    implementation 'com.github.xdma:CloudinaryVS:0.1.8'
+    implementation 'com.github.xdma:CloudinaryVS:0.1.9'
 }
   ```
   
