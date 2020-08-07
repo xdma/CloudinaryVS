@@ -7,4 +7,31 @@
     <color name="white">#FFFFFF</color>
     <color name="transparent_white">#90FFFFFF</color>
 
+    <string-array name="color_picker">
+        <item>#B71C1C</item>
+        <item>#311B92</item>
+        <item>#01579B</item>
+        <item>#1B5E20</item>
+        <item>#F57F17</item>
+        <item>#BF360C</item>
+        <item>#263238</item>
+        <item>#880E4F</item>
+        <item>#FFFFFF</item>
+        <item>#1A237E</item>
+        <item>#006064</item>
+        <item>#33691E</item>
+        <item>#FF6F00</item>
+        <item>#3E2723</item>
+        <item>#4A148C</item>
+        <item>#0D47A1</item>
+        <item>#004D40</item>
+        <item>#827717</item>
+        <item>#E65100</item>
+        <item>#212121</item>
+        <item>#000000</item>
+        <item>#00E111</item>
+        <item>#00AAFF</item>
+        <item>#CDDC39</item>
+    </string-array>
+
 </resources>

@@ -19,6 +19,8 @@ class SubTitleRepository(context: Context) {
     var cloudName: String = ""
     val generatedUrl: MutableLiveData<String> = MutableLiveData()
 
+
+
     init {
         val db: AppDatabase = AppDatabase.getInstance(context)
         subtitleDao = db.subTitleDao()
@@ -43,7 +45,12 @@ class SubTitleRepository(context: Context) {
         }
     }
 
-    fun createCloudinaryUrl(subtitlesList: List<SubTitle>?, textColor:Int, bgColor: Int, textSize: Int) {
+    fun createCloudinaryUrl(
+        subtitlesList: List<SubTitle>?,
+        textColor: Int,
+        bgColor: Int,
+        textSize: Int
+    ) {
         val subtitlesJsonArray = JSONArray()
         subtitlesList?.forEach {
             subtitlesJsonArray.put(JSONObject().apply {
@@ -66,7 +73,7 @@ class SubTitleRepository(context: Context) {
             .setTextSize(textSize)
             .build()
 
-            generatedUrl.postValue(resultUrl)
+        generatedUrl.postValue(resultUrl)
     }
 
 

@@ -9,5 +9,7 @@
     <string name="defaultCloudName">candidate-evaluation</string>
     <string name="defaultPublicId">The_Present.mp4</string>
     <string name="default_timing">00:00:0</string>
+    <string name="bg_color">bg color</string>
+    <string name="txt_color">txt color</string>
     <!--    <string name="defaultCloudName">demo</string>-->
 </resources>

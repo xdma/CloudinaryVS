@@ -20,7 +20,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
@@ -31,9 +30,11 @@ import com.google.android.exoplayer2.util.Util
 import com.shostak.cloudinary_vs.AppDatabase
 import com.shostak.cloudinary_vs.R
 import com.shostak.cloudinary_vs.model.SubTitle
+import com.shostak.cloudinary_vs.ui.ColorPicker
 import com.shostak.cloudinary_vs.utils.*
 import com.shostak.cloudinary_vs.viewmodel.SubTitleViewModel
 import kotlinx.android.synthetic.main.fragment_video_player_screen.*
+import kotlinx.android.synthetic.main.timing_item.*
 
 
 class VideoPlayerScreen : Fragment(), View.OnClickListener, TextWatcher {
@@ -43,6 +44,8 @@ class VideoPlayerScreen : Fragment(), View.OnClickListener, TextWatcher {
     private val subtitlesAdapter = SubtitlesAdapter()
     private var player: SimpleExoPlayer? = null
     private var videoReload = false
+    private var textColor: Int = 0
+    private var bgColor: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,21 +59,45 @@ class VideoPlayerScreen : Fragment(), View.OnClickListener, TextWatcher {
 
         initRecyclerview()
         initUi()
+
         loadButton.setOnClickListener(this)
+        txtColorButton.setOnClickListener(this)
+        bgColorButton.setOnClickListener(this)
         initViewModel()
     }
 
 
     override fun onClick(v: View?) {
         when (v) {
-            loadButton ->
+            loadButton -> {
                 showSubtitlesList()
+            }
+
+            txtColorButton, bgColorButton -> {
+                val cp = ColorPicker()
+                cp.show(childFragmentManager, "cp")
+                cp.onSetColorListner = object : ColorPicker.OnColorSetListener {
+                    override fun onColorSet(color: Int) {
+                        when (v) {
+                            txtColorButton -> textColor = color
+                            bgColorButton -> bgColor = color
+                        }
+
+                        txtColorButton.setBackgroundColor(bgColor)
+                        bgColorButton.setBackgroundColor(bgColor)
+                        txtColorButton.setTextColor(textColor)
+                        bgColorButton.setTextColor(textColor)
+                    }
+                }
+            }
         }
     }
 
     @SuppressLint("ClickableViewAccessibility")
     private fun initUi() {
         VideoViewCollapseExpandAnimation.collapse(videoView)
+        textColor = ContextCompat.getColor(requireContext(), R.color.colorAccent)
+        bgColor = ContextCompat.getColor(requireContext(), R.color.colorPrimary)
 
         publicIdValue.addTextChangedListener(this)
         val addButtonSpring = createSpringAnimation(
@@ -176,9 +203,9 @@ class VideoPlayerScreen : Fragment(), View.OnClickListener, TextWatcher {
     }
 
     private fun showSubtitlesList() {
-        player?.release()
         hideKeyboard(loadButton)
         videoReload = true
+        player?.release()
         viewModel.setPublicId(publicIdValue.text.toString())
         viewModel.setCloudName(cloudNameValue.text.toString())
 
@@ -224,8 +251,8 @@ class VideoPlayerScreen : Fragment(), View.OnClickListener, TextWatcher {
 
             viewModel.createCloudinaryUrl(
                 subtitlesList = it,
-                textColor = ContextCompat.getColor(requireContext(), R.color.colorAccent),
-                bgColor = ContextCompat.getColor(requireContext(), R.color.colorPrimaryDark),
+                textColor = textColor,
+                bgColor = bgColor,
                 textSize = 80
             )
         })
