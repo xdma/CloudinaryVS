@@ -6,18 +6,27 @@ import com.shostak.cloudinary_video_subtibles.CloudinaryVS
 import org.json.JSONObject
 import java.io.IOException
 import java.io.InputStream
+import java.lang.Exception
+import java.math.RoundingMode
 import java.nio.charset.Charset
+import java.text.DecimalFormat
 import java.util.regex.Pattern
 
 val TAG = "CVD"
 
-internal fun CloudinaryVS.timePosStrToSec(time: String): Float {
-    val units = time.split(":")
-    val minutes = units[0].toInt()
-    val seconds = units[1].toFloat()
+internal fun CloudinaryVS.timePosStrToSec(time: String): Float? {
+    try {
+        val units = time.split(":")
+        val minutes = units[0].toInt()
+        val seconds = units[1].toFloat()
+        return (60 * minutes + seconds)
+    } catch (e: Exception) {
+        Log.e(TAG, "Wrong timing field format, the correct pattern is: `#:##.#`, current subtitle wil be skipped")
+    }
 
-    return 60 * minutes + seconds
+    return null
 }
+
 
 private fun CloudinaryVS.validateTimingField(item: JSONObject, timing: String): Boolean {
     val p = Pattern.compile(".*([01]?[0-9]|2[0-3]):[0-5][0-9].*")
@@ -25,7 +34,7 @@ private fun CloudinaryVS.validateTimingField(item: JSONObject, timing: String): 
     if (item.has(timing)) {
         val m = p.matcher(item.getString(timing))
         if (!m.matches()) {
-            Log.e(TAG, "Wrong $timing field format, the correct pattern: `#:##.#`")
+            Log.e(TAG, "Wrong $timing field format, the correct pattern is: `#:##.#`")
         }
     } else {
         throw IllegalArgumentException("$timing field is missing")

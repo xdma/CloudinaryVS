@@ -36,6 +36,8 @@ class CloudinaryVS(val publicId: String) {
                     .replace(",", "%2C")
                 val start = timePosStrToSec(item.getString("start-timing"))
                 val end = timePosStrToSec(item.getString("end-timing"))
+                if (start == null || end == null)
+                    continue
 
                 sb.append(
                     URLEncoder.encode(
