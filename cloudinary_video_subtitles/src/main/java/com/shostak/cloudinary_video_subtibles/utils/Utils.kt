@@ -11,6 +11,11 @@ import java.util.regex.Pattern
 
 val TAG = "CVD"
 
+/**
+ *
+ * @property time - timing string with pattern: #:##.#
+ * converted to number of seconds
+ */
 internal fun CloudinaryVS.timePosStrToSec(time: String): Float? {
     try {
         val units = time.split(":")
@@ -24,7 +29,12 @@ internal fun CloudinaryVS.timePosStrToSec(time: String): Float? {
     return null
 }
 
-
+/**
+ * Validating timing fields format in the json subtitle instance
+ * @property item - json object instance from subtitles array
+ * @property timing - string key of timing field
+ *
+ */
 private fun CloudinaryVS.validateTimingField(item: JSONObject, timing: String): Boolean {
     val p = Pattern.compile(".*([01]?[0-9]|2[0-3]):[0-5][0-9].*")
 
@@ -40,6 +50,9 @@ private fun CloudinaryVS.validateTimingField(item: JSONObject, timing: String): 
     return true
 }
 
+/**
+ * Validating the entire json array fields before parsing it
+ */
 internal fun CloudinaryVS.jsonIsValid(): Boolean {
 
     if (json == null || json!!.optJSONArray("subtitles") != null && json!!.getJSONArray("subtitles")
@@ -69,7 +82,12 @@ internal fun CloudinaryVS.jsonIsValid(): Boolean {
     return true
 }
 
-
+/**
+ * For testing purposes,
+ * returns a json array of subtitles
+ * stored in the assets folder.
+ * {@link '/assets/test_data.json'
+ */
 fun testData(context: Context): JSONObject? {
     var json: String? = null
     json = try {

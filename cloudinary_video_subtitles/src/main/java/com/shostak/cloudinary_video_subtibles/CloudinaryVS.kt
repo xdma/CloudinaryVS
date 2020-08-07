@@ -13,14 +13,15 @@ import java.net.URLEncoder
  *
  * @author Dima Shostak
  */
-
+/**
+ * @constructor CloudinaryVS
+ * @property publicId - the publicId value of video file hosted in Cloudinary
+ */
 class CloudinaryVS(private val publicId: String) {
 
     private var cloudName: String = ""
     internal var json: JSONObject? = null
-
     private val baseUrl = "https://res.cloudinary.com/%s/video/upload/%s%s"
-
     private var defaultTextColor = "ffffff"
     private var defaultBgColor = "black"
     private var defaultTextSize = 20
@@ -35,18 +36,23 @@ class CloudinaryVS(private val publicId: String) {
             for (i in 0 until subtitles.length()) {
                 val item = subtitles.getJSONObject(i)
 
-
+                //empty string will be replaced to -subtitle-
                 val text = if ((item.getString("text")).isBlank()) "-subtitle-" else item.getString(
                     "text"
                 )
                     //escaping Cloudinary special characters
                     .replace("%", "%25")
                     .replace(",", "%2C")
+
+                //converting timing strings to number of seconds: #.#
                 val start = timePosStrToSec(item.getString("start-timing"))
                 val end = timePosStrToSec(item.getString("end-timing"))
+
+                //skip iteration if start or end empty or wrong formatted
                 if (start == null || end == null)
                     continue
 
+                //appending text overlay iteration
                 sb.append(
                     URLEncoder.encode(
                         "l_text:arial_$defaultTextSize:$text,g_south,co_rgb:$defaultTextColor,y_50,so_$start,eo_$end,b_$defaultBgColor",
@@ -56,6 +62,7 @@ class CloudinaryVS(private val publicId: String) {
                 sb.append("/")
             }
 
+            //formatting the string template of final result url
             resultUrl = baseUrl.format(
                 this.cloudName,
                 sb.toString(),
@@ -63,6 +70,7 @@ class CloudinaryVS(private val publicId: String) {
             )
 
         } else {
+            //returning the raw video without transformations
             return baseUrl.format(this.cloudName, publicId, "")
         }
 
