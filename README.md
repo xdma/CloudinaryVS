@@ -20,7 +20,7 @@ allprojects {
  ```gradle
 dependencies {
     ...
-    implementation 'com.github.xdma:CloudinaryVS:0.1.5'
+    implementation 'com.github.xdma:CloudinaryVS:0.1.8'
 }
   ```
   
@@ -51,10 +51,14 @@ The library takes three major values, ```publicid```,  ```cloudname```, ```jsonO
 ```
 * **Usage Example:**
 ```Kotlin
-val resultUrl = CloudinaryVS.get(publicId)
-                            .cloudName(cloudName)
-                            .addSubtitles(json) 
-                            .build()
+ val resultUrl = CloudinaryVS
+            .get(publicId)
+            .cloudName(cloudName)
+            .addSubtitles(json)
+            .textColor(textColor)
+            .backgroundColor(bgColor)
+            .setTextSize(textSize)
+            .build()
 ```
 
 
