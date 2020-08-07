@@ -50,7 +50,7 @@ The library takes three major values, ```publicid```,  ```cloudname```, ```jsonO
   ]
 }
 ```
-* **Usage Example**
+## Usage Example
 ```Kotlin
  val resultUrl = CloudinaryVS
             .get(publicId)
