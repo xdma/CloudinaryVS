@@ -13,12 +13,8 @@ class CloudinaryVS(val publicId: String) {
 
     private val baseUrl =
         "https://res.cloudinary.com/%s/video/upload/%s%s"
+    private val iteration = "l_text:arial_50:%s,g_south,co_rgb:ffffff,y_50,so_%s,eo_%s,b_black"
 
-    //    val iteration = "l_text:arial_30:%s,g_south,y_50,so_%s,eo_%s/"
-    val iteration = "l_text:arial_50:%s,g_south,co_rgb:ffffff,y_50,so_%s,eo_%s,b_black"
-
-//    val temp =
-//        "https://res.cloudinary.com/demo/video/upload/l_text:arial_30:Cool Video,g_south,co_rgb:ffffff,y_80,so_2,eo_5,b_black/dog.mp4"
 
     private fun generateVideoUrl(): String {
         var resultUrl = ""
