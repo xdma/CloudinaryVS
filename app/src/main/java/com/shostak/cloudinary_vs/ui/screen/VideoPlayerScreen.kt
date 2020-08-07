@@ -20,6 +20,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSmoothScroller
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
@@ -39,7 +40,7 @@ class VideoPlayerScreen : Fragment(), View.OnClickListener, TextWatcher {
     private lateinit var viewModel: SubTitleViewModel
     private lateinit var smoothScroller: RecyclerView.SmoothScroller
     private val subtitlesAdapter = SubtitlesAdapter()
-    private lateinit var player: SimpleExoPlayer
+    private var player: SimpleExoPlayer? = null
     private var videoReload = false
 
     override fun onCreateView(
@@ -51,9 +52,6 @@ class VideoPlayerScreen : Fragment(), View.OnClickListener, TextWatcher {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        player = SimpleExoPlayer.Builder(requireContext()).build()
-        videoView.player = player
 
         initRecyclerview()
         initUi()
@@ -94,7 +92,8 @@ class VideoPlayerScreen : Fragment(), View.OnClickListener, TextWatcher {
 
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                     addButtonSpring.setStartValue(addButton.scaleX).animateToFinalPosition(1F)
-                    val timingStrings = (videoView.player?.contentPosition?:0).convertPositionToTimingString()
+                    val timingStrings =
+                        (videoView.player?.contentPosition ?: 0).convertPositionToTimingString()
 
                     viewModel.addItem(
                         SubTitle(
@@ -150,6 +149,9 @@ class VideoPlayerScreen : Fragment(), View.OnClickListener, TextWatcher {
     }
 
     private fun hideSubtitlesList() {
+        if (player?.isPlaying == true)
+            player?.stop()
+
         recyclerView.post {
             recyclerView.translationY = -recyclerView.height.toFloat()
             recyclerView.visibility = View.GONE
@@ -173,11 +175,11 @@ class VideoPlayerScreen : Fragment(), View.OnClickListener, TextWatcher {
     }
 
     private fun showSubtitlesList() {
+        player?.release()
         hideKeyboard(loadButton)
         videoReload = true
         viewModel.setPublicId(publicIdValue.text.toString())
         viewModel.setCloudName(cloudNameValue.text.toString())
-
 
         val db = AppDatabase.getInstance(requireContext())
         db.subTitleDao().getAll(viewModel.publicId).observe(viewLifecycleOwner, Observer {
@@ -234,6 +236,10 @@ class VideoPlayerScreen : Fragment(), View.OnClickListener, TextWatcher {
         if (!videoReload)
             return
 
+        player = SimpleExoPlayer.Builder(requireContext()).build()
+        videoView.player = player
+
+
         videoReload = false
         val dataSourceFactory: DataSource.Factory = DefaultDataSourceFactory(
             context,
@@ -241,7 +247,7 @@ class VideoPlayerScreen : Fragment(), View.OnClickListener, TextWatcher {
         )
         val videoSource: MediaSource = ProgressiveMediaSource.Factory(dataSourceFactory)
             .createMediaSource(Uri.parse(videoUrl))
-        player.prepare(videoSource)
+        player?.prepare(videoSource)
     }
 
 
@@ -254,8 +260,14 @@ class VideoPlayerScreen : Fragment(), View.OnClickListener, TextWatcher {
     override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
 
     }
+
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+        player?.release()
     }
 
     companion object {
