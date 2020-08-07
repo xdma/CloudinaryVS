@@ -24,6 +24,7 @@ import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.SimpleExoPlayer
 import com.google.android.exoplayer2.source.MediaSource
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
+import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
@@ -237,6 +238,7 @@ class VideoPlayerScreen : Fragment(), View.OnClickListener, TextWatcher {
             return
 
         player = SimpleExoPlayer.Builder(requireContext()).build()
+        videoView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
         videoView.player = player
 
 
