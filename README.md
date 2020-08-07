@@ -66,4 +66,4 @@ The library takes three major values, ```publicid```,  ```cloudname```, ```jsonO
 _sample of susbtitles json is available at:_ ``` .addSubtitles(testData(context)) ```
 
 ## Sample App Screenshots
-<img src="https://user-images.githubusercontent.com/7386086/89650157-a74c2480-d8ca-11ea-882c-a13bf060ab92.png" width="300">
+<img src="https://user-images.githubusercontent.com/7386086/89650157-a74c2480-d8ca-11ea-882c-a13bf060ab92.png" width="300"> <img src="https://user-images.githubusercontent.com/7386086/89650499-36f1d300-d8cb-11ea-8222-56532288602f.png" width="300">
