@@ -93,7 +93,7 @@ class VideoPlayerScreen : Fragment(), View.OnClickListener, TextWatcher {
 
                 MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
                     addButtonSpring.setStartValue(addButton.scaleX).animateToFinalPosition(1F)
-                    val timingStrings = videoView.player?.contentPosition?.convertPositionToTimingString()?: arrayOf()
+                    val timingStrings = (videoView.player?.contentPosition?:0).convertPositionToTimingString()
 
                     viewModel.addItem(
                         SubTitle(
