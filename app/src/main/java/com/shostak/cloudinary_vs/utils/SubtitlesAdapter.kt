@@ -42,6 +42,7 @@ class SubtitlesAdapter :
         holder.text.setText(subtitleItem.text)
         holder.start.setText(subtitleItem.start_timing)
         holder.end.setText(subtitleItem.end_timing)
+        holder.text.setSelection(holder.text.length())
         updatePaused = false
 
         if (requestFocusOnLastItem && position == currentList.lastIndex) {
@@ -118,7 +119,7 @@ class SubtitlesAdapter :
                         extractedValue: String,
                         formattedValue: String
                     ) {
-                        if (adapterPosition == RecyclerView.NO_POSITION ||  updatePaused)
+                        if (adapterPosition == RecyclerView.NO_POSITION || updatePaused)
                             return
 
                         getItem(adapterPosition).start_timing = start.text.toString()
