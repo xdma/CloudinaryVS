@@ -14,6 +14,9 @@ import kotlinx.android.synthetic.main.fragment_video_player_screen.*
 /**
  * Created by Shostak Dima on 05/08/20.
  */
+
+private const val DEFAULT_TIME_INTERVAL = 3000
+
 fun Float.toPx(context: Context) = (this * context.resources.displayMetrics.scaledDensity + 0.5F)
 
 fun createSpringAnimation(
@@ -48,6 +51,14 @@ fun requestFocusAndShowKeyboard(view: View) {
 }
 
 fun Long.convertPositionToTimingString(): Array<String> {
+    val start = this.milliSecondsToFormattedTime()
+    val end = (this + DEFAULT_TIME_INTERVAL).milliSecondsToFormattedTime()
+
+    return arrayOf(start, end)
+}
+
+
+private fun Long.milliSecondsToFormattedTime(): String {
     val minutes: String = (this / 1000 / 60).toString()
     var seconds: String = ("%.1f".format(this / 1000F % 60F))
     if (seconds.endsWith("."))
@@ -55,18 +66,5 @@ fun Long.convertPositionToTimingString(): Array<String> {
     if (seconds.split(".")[0].length == 1)
         seconds = "0$seconds"
 
-    val endPosition = this + 3000
-    val minutesEnd: String = (endPosition / 1000 / 60).toString()
-    var secondsEnd = ("%.1f".format(endPosition / 1000F % 60F))
-    if (secondsEnd.endsWith("."))
-        secondsEnd += "0"
-    if (secondsEnd.split(".")[0].length == 1)
-        secondsEnd = "0$secondsEnd"
-
-    return arrayOf(
-        "%s:%s".format(minutes, seconds),
-        "%s:%s".format(minutesEnd, secondsEnd)
-    )
+    return "%s:%s".format(minutes, seconds)
 }
-
-

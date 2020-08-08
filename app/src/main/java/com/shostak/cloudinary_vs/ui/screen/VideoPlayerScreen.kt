@@ -188,6 +188,8 @@ class VideoPlayerScreen : Fragment(), View.OnClickListener, View.OnTouchListener
             and recyclerView spring will play the animations */
 
             if (recyclerView.tag == 0) {
+                recyclerView.visibility = View.VISIBLE
+                addButton.visibility = View.VISIBLE
                 recyclerView.tag = 1
                 recyclerView.scheduleLayoutAnimation()
                 recyclerViewSpring.setStartValue(-recyclerView.height.toFloat())
@@ -210,9 +212,6 @@ class VideoPlayerScreen : Fragment(), View.OnClickListener, View.OnTouchListener
                 bgColor = bgColor,
                 textSize = 80
             )
-
-            recyclerView.visibility = View.VISIBLE
-            addButton.visibility = View.VISIBLE
         })
 
         VideoViewCollapseExpandAnimation.expand(videoView)
