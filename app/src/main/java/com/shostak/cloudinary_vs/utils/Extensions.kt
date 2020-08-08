@@ -10,6 +10,7 @@ import androidx.dynamicanimation.animation.DynamicAnimation
 import androidx.dynamicanimation.animation.SpringAnimation
 import androidx.dynamicanimation.animation.SpringForce
 import kotlinx.android.synthetic.main.fragment_video_player_screen.*
+import kotlin.math.min
 
 /**
  * Created by Shostak Dima on 05/08/20.
@@ -59,7 +60,9 @@ fun Long.convertPositionToTimingString(): Array<String> {
 
 
 private fun Long.milliSecondsToFormattedTime(): String {
-    val minutes: String = (this / 1000 / 60).toString()
+    var minutes: String = (this / 1000 / 60).toString()
+    if (minutes.length == 1)
+        minutes = "0$minutes"
     var seconds: String = ("%.1f".format(this / 1000F % 60F))
     if (seconds.endsWith("."))
         seconds += "0"

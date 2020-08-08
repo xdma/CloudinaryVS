@@ -9,10 +9,13 @@ import android.widget.EditText
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.redmadrobot.inputmask.MaskedTextChangedListener.Companion.installOn
+import com.redmadrobot.inputmask.MaskedTextChangedListener.ValueListener
 import com.shostak.cloudinary_vs.R
 import com.shostak.cloudinary_vs.model.SubTitle
 
-class SubtitlesAdapter() :
+
+class SubtitlesAdapter :
     ListAdapter<SubTitle, SubtitlesAdapter.ShoppingItemHolder>(
         DiffCallback()
     ) {
@@ -76,8 +79,6 @@ class SubtitlesAdapter() :
                         return
 
                     getItem(adapterPosition).text = text.text.toString()
-                    getItem(adapterPosition).start_timing = start.text.toString()
-                    getItem(adapterPosition).end_timing = end.text.toString()
 
                     onTitleChanged?.invoke(
                         getItem(adapterPosition).id,
@@ -101,10 +102,39 @@ class SubtitlesAdapter() :
                 }
             }
 
+            addMaskInputFilterListener(start)
+            addMaskInputFilterListener(end)
             text.addTextChangedListener(textWatcher)
-            start.addTextChangedListener(textWatcher)
-            end.addTextChangedListener(textWatcher)
 
+        }
+
+        private fun addMaskInputFilterListener(editText: EditText) {
+            val listener = installOn(
+                editText,
+                "[00]{:}[00]{.}[0]",
+                object : ValueListener {
+                    override fun onTextChanged(
+                        maskFilled: Boolean,
+                        extractedValue: String,
+                        formattedValue: String
+                    ) {
+                        if (adapterPosition == RecyclerView.NO_POSITION ||  updatePaused)
+                            return
+
+                        getItem(adapterPosition).start_timing = start.text.toString()
+                        getItem(adapterPosition).end_timing = end.text.toString()
+
+                        onTitleChanged?.invoke(
+                            getItem(adapterPosition).id,
+                            text.text.toString(),
+                            start.text.toString(),
+                            end.text.toString()
+                        )
+                    }
+                }
+            )
+
+            editText.hint = listener.placeholder()
         }
     }
 
