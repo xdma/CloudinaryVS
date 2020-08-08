@@ -159,7 +159,6 @@ class VideoPlayerScreen : Fragment(), View.OnClickListener, View.OnTouchListener
 
         videoReload = false
         player = SimpleExoPlayer.Builder(requireContext()).build()
-        videoView.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
         videoView.player = player
         val dataSourceFactory: DataSource.Factory = DefaultDataSourceFactory(
             context,
