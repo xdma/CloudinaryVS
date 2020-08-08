@@ -19,7 +19,8 @@ class SubtitlesAdapter() :
 
     var onDeleteClicked: ((subtitle: SubTitle) -> Unit)? = null
     var onTitleChanged: ((id: Int, text: String, start: String, end: String) -> Unit)? = null
-    var updatePaused: Boolean = false
+    private var updatePaused: Boolean = false
+    var requestFocusOnLastItem: Boolean = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShoppingItemHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -39,6 +40,11 @@ class SubtitlesAdapter() :
         holder.start.setText(subtitleItem.start_timing)
         holder.end.setText(subtitleItem.end_timing)
         updatePaused = false
+
+        if (requestFocusOnLastItem && position == currentList.lastIndex) {
+            requestFocusOnLastItem = false
+            requestFocusAndShowKeyboard(holder.text)
+        }
     }
 
     open inner class ShoppingItemHolder(itemView: View) :

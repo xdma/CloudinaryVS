@@ -35,6 +35,7 @@ import com.shostak.cloudinary_vs.ui.ColorPicker
 import com.shostak.cloudinary_vs.utils.*
 import com.shostak.cloudinary_vs.viewmodel.SubTitleViewModel
 import kotlinx.android.synthetic.main.fragment_video_player_screen.*
+import kotlinx.coroutines.GlobalScope
 
 
 class VideoPlayerScreen : Fragment(), View.OnClickListener, View.OnTouchListener, TextWatcher {
@@ -290,6 +291,7 @@ class VideoPlayerScreen : Fragment(), View.OnClickListener, View.OnTouchListener
                     )
                 )
 
+                subtitlesAdapter.requestFocusOnLastItem = true
                 smoothScroller.targetPosition = subtitlesAdapter.itemCount + 1
                 recyclerView.layoutManager?.startSmoothScroll(smoothScroller)
             }
